@@ -9,7 +9,7 @@ public class Tile {
 
 	LooseObject looseObject;
 	InstalledObject installedObject;
-
+    //test code
 	World world;
 	int x;
 	int y;
