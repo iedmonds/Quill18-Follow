@@ -1,0 +1,24 @@
+syntax: glob
+Library
+Temp
+Assets\UnityVS
+Assets\UnityVS.meta
+*.apk
+*.ipa
+*.pidb
+*.sln
+*.suo
+*.userprefs
+*.csproj
+*.orig
+*.orig.meta
+.DS_Store
+thumbs.db
+.mayaSwatches
+workspace.mel
+*.unityproj
+*.booproj
+*.pidb
+*.DotSettings
+Sounds.meta
+workspace.mel.meta
