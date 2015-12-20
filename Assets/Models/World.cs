@@ -4,6 +4,8 @@ using System.Collections;
 public class World {
 
 	Tile[,] tiles;
+	int lastTile_x;
+	int lastTile_y;
 
 	public int Width { get; protected set; }
 	public int Height {	get; protected set; }
@@ -38,11 +40,13 @@ public class World {
 	}
 
 	public Tile GetTileAt(int x, int y) {
-		if (x > Width || x < 0 || y > Height || y < 0) {
-			Debug.LogError("Tile ["+x+","+y+"] is out of range");
-			return null;
+		if (x >= Width || x < 0 || y >= Height || y < 0) {
+				Debug.LogWarning("Tile ["+x+","+y+"] is out of range");
 		}
+		if (x >= Width) x = Width-1;
+		if (x < 0) x = 0;
+		if (y >= Height) y = Height-1;
+		if (y < 0) y = 0;
 		return tiles[x,y];
 	}
-
 }

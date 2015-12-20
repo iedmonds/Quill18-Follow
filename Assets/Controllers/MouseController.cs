@@ -3,9 +3,10 @@ using System.Collections;
 
 public class MouseController : MonoBehaviour {
 
-	Vector3 lastFramePosition;
-
 	public GameObject circleCursor;
+
+	Vector3 lastFramePosition;
+	Vector3 currFramePosition;
 
 	Vector3 dragStartPosition;
 
@@ -16,12 +17,26 @@ public class MouseController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		Vector3 currFramePosition = Camera.main.ScreenToWorldPoint( Input.mousePosition );
+		currFramePosition = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 		currFramePosition.z = 0;
 
-		// Update cursor position
+		UpdateCursor();
+		UpdateDragging();
+		UpdateCameraMovement();
 
+		lastFramePosition = Camera.main.ScreenToWorldPoint( Input.mousePosition );
+		lastFramePosition.z = 0;
+	}
+
+	Tile GetTileAtWorldCoord (Vector3 coord) {
+		int x = Mathf.FloorToInt(coord.x);
+		int y = Mathf.FloorToInt(coord.y);
+
+		return WorldController.Instance.World.GetTileAt(x,y);
+	}
+
+	void UpdateCursor() {
+		// Update the circle cursor position
 		Tile tileUnderMouse = GetTileAtWorldCoord(currFramePosition);
 		if ( tileUnderMouse != null ) {
 			circleCursor.SetActive(true);
@@ -30,14 +45,23 @@ public class MouseController : MonoBehaviour {
 		} else {
 			circleCursor.SetActive(false);
 		}
+		
+		if (GetTileAtWorldCoord(currFramePosition) != null && GetTileAtWorldCoord(lastFramePosition) != null && GetTileAtWorldCoord(currFramePosition) != GetTileAtWorldCoord(lastFramePosition)) Debug.Log ("Hover tile: "+tileUnderMouse.X+", "+tileUnderMouse.Y);
+	}
 
-		// Handle left mouse clicks
+	void UpdateCameraMovement() {
+		if(Input.GetMouseButton(1) || Input.GetMouseButton(2)) { //Right or middle mouse button
+			
+			Vector3 diff = lastFramePosition - currFramePosition;
+			Camera.main.transform.Translate(diff);
+		}
+	}
 
-		// Start drag
+	void UpdateDragging() {
 		if (Input.GetMouseButtonDown(0)) {
 			dragStartPosition = currFramePosition;
 		}
-
+		
 		// End drag
 		if (Input.GetMouseButtonUp(0)) {
 			int start_x = Mathf.FloorToInt( dragStartPosition.x );
@@ -47,7 +71,7 @@ public class MouseController : MonoBehaviour {
 				end_x = start_x;
 				start_x = tmp;
 			}
-
+			
 			int start_y = Mathf.FloorToInt( dragStartPosition.y );
 			int end_y   = Mathf.FloorToInt( currFramePosition.y );
 			if (end_y < start_y) {
@@ -55,7 +79,7 @@ public class MouseController : MonoBehaviour {
 				end_y = start_y;
 				start_y = tmp;
 			}
-
+			
 			for (int x = start_x; x <= end_x; x++) {
 				for (int y = start_y; y <= end_y; y++) {
 					Tile t = WorldController.Instance.World.GetTileAt(x,y);
@@ -69,22 +93,5 @@ public class MouseController : MonoBehaviour {
 				}				
 			}
 		}
-
-		// Handle screen dragging
-		if(Input.GetMouseButton(1) || Input.GetMouseButton(2)) { //Right or middle mouse button
-
-			Vector3 diff = lastFramePosition - currFramePosition;
-			Camera.main.transform.Translate(diff);
-		}
-
-		lastFramePosition = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-		lastFramePosition.z = 0;
-	}
-
-	Tile GetTileAtWorldCoord (Vector3 coord) {
-		int x = Mathf.FloorToInt(coord.x);
-		int y = Mathf.FloorToInt(coord.y);
-
-		return WorldController.Instance.World.GetTileAt(x,y);
 	}
 }
