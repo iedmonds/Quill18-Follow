@@ -29,12 +29,12 @@ public class World {
 	public void RandomizeTiles() {
 		for (int x = 0; x < Width; x++) {
 			for (int y = 0; y < Height; y++) {
-				if (Random.Range(0,2) == 0) {
+//				if (Random.Range(0,2) == 0) {
 					tiles[x,y].Type = Tile.TileType.Grass;
 
-				} else {
-					tiles[x,y].Type = Tile.TileType.Water;
-				}
+//				} else {
+//					tiles[x,y].Type = Tile.TileType.Water;
+//				}
 			}
 		}
 	}
@@ -42,11 +42,12 @@ public class World {
 	public Tile GetTileAt(int x, int y) {
 		if (x >= Width || x < 0 || y >= Height || y < 0) {
 				Debug.LogWarning("Tile ["+x+","+y+"] is out of range");
+			return null;
 		}
-		if (x >= Width) x = Width-1;
-		if (x < 0) x = 0;
-		if (y >= Height) y = Height-1;
-		if (y < 0) y = 0;
+//		if (x >= Width) x = Width-1;
+//		if (x < 0) x = 0;
+//		if (y >= Height) y = Height-1;
+//		if (y < 0) y = 0;
 		return tiles[x,y];
 	}
 }
