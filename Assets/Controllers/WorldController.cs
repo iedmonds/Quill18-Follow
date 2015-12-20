@@ -37,8 +37,6 @@ public class WorldController : MonoBehaviour {
 		World.RandomizeTiles();
 	}
 
-
-
 	void Update () {
 
 	}
@@ -52,5 +50,12 @@ public class WorldController : MonoBehaviour {
 		} else {
 			Debug.LogError("OnTileTypeChanged - Unrecognized tile type.");
 		}
+	}
+		
+	public Tile GetTileAtWorldCoord (Vector3 coord) {
+		int x = Mathf.FloorToInt(coord.x);
+		int y = Mathf.FloorToInt(coord.y);
+		
+		return WorldController.Instance.World.GetTileAt(x,y);
 	}
 }
