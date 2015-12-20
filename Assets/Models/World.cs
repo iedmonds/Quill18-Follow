@@ -4,39 +4,29 @@ using System.Collections;
 public class World {
 
 	Tile[,] tiles;
-	int width;
-	int height;
 
-	public int Width {
-		get {
-			return width;
-		}
-	}
-
-	public int Height {
-		get {
-			return height;
-		}
-	}
+	public int Width { get; protected set; }
+	public int Height {	get; protected set; }
 
 	public World(int width = 100, int height = 100) {
-		this.width = width;
-		this.height = height;
+		Width = width;
+		Height = height;
 
-		tiles = new Tile[width,height];
+		tiles = new Tile[Width,Height];
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int x = 0; x < Width; x++) {
+			for (int y = 0; y < Height; y++) {
 				tiles[x,y] = new Tile(this,x,y);
 			}
 		}
-		Debug.LogError("World created with size " + width + " x " + height + " ("+ (width * height) + ") tiles.");
+		Debug.Log("World created with size " + Width + " x " + Height + " ("+ (Width * Height) + ") tiles.");
 
 	}
 
+	// A function to create a random world
 	public void RandomizeTiles() {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int x = 0; x < Width; x++) {
+			for (int y = 0; y < Height; y++) {
 				if (Random.Range(0,2) == 0) {
 					tiles[x,y].Type = Tile.TileType.Grass;
 
@@ -48,8 +38,8 @@ public class World {
 	}
 
 	public Tile GetTileAt(int x, int y) {
-		if (x > width || x < 0 || y > height || y < 0) {
-			Debug.LogError("Tile [" + x + "," + y + "] is out of range");
+		if (x > Width || x < 0 || y > Height || y < 0) {
+			Debug.LogError("Tile ["+x+","+y+"] is out of range");
 			return null;
 		}
 		return tiles[x,y];
