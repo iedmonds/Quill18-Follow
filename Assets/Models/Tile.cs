@@ -2,9 +2,10 @@
 using System.Collections;
 using System;
 
-public class Tile {
+// TileType is the base type of the tile.
+public enum TileType { Empty, Water, Grass };
 
-	public enum TileType { Empty, Water, Grass };
+public class Tile {
 
 	private TileType _type = TileType.Empty;
 	public TileType Type {
@@ -35,13 +36,18 @@ public class Tile {
 		this.Y = y;
 
 	}
-
-	// Register a function to be called when our tile type changes
+	/// <summary>
+	/// Register a function to be called when our tile type changes
+	/// </summary>
+	/// <param name="callback">Callback.</param>
 	public void RegisterTileTypeChangeCallback(Action<Tile> callback) {
 		cbTileTypeChanged += callback;
 	}
 
-	// Unregister a callback
+	/// <summary>
+	/// Unregisters the tile type change callback.
+	/// </summary>
+	/// <param name="callback">Callback.</param>
 	public void UnregisterTileTypeChangeCallback(Action<Tile> callback) {
 		cbTileTypeChanged -= callback;
 	}

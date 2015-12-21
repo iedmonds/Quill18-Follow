@@ -30,7 +30,7 @@ public class World {
 		for (int x = 0; x < Width; x++) {
 			for (int y = 0; y < Height; y++) {
 //				if (Random.Range(0,2) == 0) {
-					tiles[x,y].Type = Tile.TileType.Grass;
+					tiles[x,y].Type = TileType.Grass;
 
 //				} else {
 //					tiles[x,y].Type = Tile.TileType.Water;
@@ -41,7 +41,7 @@ public class World {
 
 	public Tile GetTileAt(int x, int y) {
 		if (x >= Width || x < 0 || y >= Height || y < 0) {
-				Debug.LogWarning("Tile ["+x+","+y+"] is out of range");
+			Debug.LogWarning("Tile ["+x+","+y+"] is out of range");
 			return null;
 		}
 //		if (x >= Width) x = Width-1;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class MouseController : MonoBehaviour {
 
@@ -10,6 +11,10 @@ public class MouseController : MonoBehaviour {
 
 	Vector3 dragStartPosition;
 	List<GameObject> dragPreviewGameObjects;
+
+	TileType buildModeTile = TileType.Grass;
+
+	bool isDragging = false;
 
 	// Use this for initialization
 	void Start () {
@@ -69,8 +74,11 @@ public class MouseController : MonoBehaviour {
 	/// </summary>
 
 	void UpdateDragging() {
-		// Start drag
+
+		// Start left mouse drag
 		if (Input.GetMouseButtonDown(0)) {
+			if (EventSystem.current.IsPointerOverGameObject()) return;
+			isDragging = true;
 			dragStartPosition = currFramePosition;
 		}
 
@@ -98,31 +106,39 @@ public class MouseController : MonoBehaviour {
 		}
 
 		// Dragging
-		if (Input.GetMouseButton(0)) {
+		if (Input.GetMouseButton(0) && isDragging) {
 			for (int x = start_x; x <= end_x; x++) {
 				for (int y = start_y; y <= end_y; y++) {
-					// Display the building cursor on this tile
-					GameObject go = SimplePool.Spawn (circleCursorPrefab, new Vector3 (x,y,0), Quaternion.identity);
-					go.transform.SetParent(this.transform, true);
-					dragPreviewGameObjects.Add(go);
+					Tile t = WorldController.Instance.World.GetTileAt(x,y);
+					if (t != null) {
+						// Display the building cursor on this tile
+						GameObject go = SimplePool.Spawn (circleCursorPrefab, new Vector3 (x,y,0), Quaternion.identity);
+						go.transform.SetParent(this.transform, true);
+						dragPreviewGameObjects.Add(go);
+					}
 				}
 			}
 		}
 		
 		// End drag
-		if (Input.GetMouseButtonUp(0)) {
+		if (Input.GetMouseButtonUp(0) && isDragging) {
 			for (int x = start_x; x <= end_x; x++) {
 				for (int y = start_y; y <= end_y; y++) {
 					Tile t = WorldController.Instance.World.GetTileAt(x,y);
 					if (t != null) {
-						if (t.Type == Tile.TileType.Grass) {
-							t.Type = Tile.TileType.Water;
-						} else if (t.Type == Tile.TileType.Water) {
-							t.Type = Tile.TileType.Grass;
-						}
+						t.Type = buildModeTile;
 					}
 				}				
 			}
+			isDragging = false;
 		}
+	}
+
+	public void SetMode_BuildGrass () {
+		buildModeTile = TileType.Grass;
+	}
+
+	public void SetMode_BuildWater () {
+		buildModeTile = TileType.Water;
 	}
 }
