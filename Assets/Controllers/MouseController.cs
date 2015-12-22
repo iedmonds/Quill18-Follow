@@ -12,6 +12,7 @@ public class MouseController : MonoBehaviour {
 	Vector3 dragStartPosition;
 	List<GameObject> dragPreviewGameObjects;
 
+	bool buildModeIsOjbects = false;
 	TileType buildModeTile = TileType.Grass;
 
 	bool isDragging = false;
@@ -126,7 +127,14 @@ public class MouseController : MonoBehaviour {
 				for (int y = start_y; y <= end_y; y++) {
 					Tile t = WorldController.Instance.World.GetTileAt(x,y);
 					if (t != null) {
-						t.Type = buildModeTile;
+						if (buildModeIsOjbects == true) {
+							// Create the InstalledObject and assign it to the tile
+
+						}
+						else {
+							// We are in tile changing mode
+							t.Type = buildModeTile;
+						}
 					}
 				}				
 			}
@@ -135,10 +143,17 @@ public class MouseController : MonoBehaviour {
 	}
 
 	public void SetMode_BuildGrass () {
+		buildModeIsOjbects = false;
 		buildModeTile = TileType.Grass;
 	}
 
 	public void SetMode_BuildWater () {
+		buildModeIsOjbects = false;
 		buildModeTile = TileType.Water;
+	}
+
+	public void SetMode_BuildWall () {
+		// Wall is not a tile, it's an installed object
+		buildModeIsOjbects = true;
 	}
 }

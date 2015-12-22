@@ -12,7 +12,7 @@ public class AutoUISizer : MonoBehaviour {
 
 	public void AdjustSize() {
 		Vector2 size = this.GetComponent<RectTransform>().sizeDelta;
-		size.y = this.transform.childCount * childHeight + (this.transform.childCount - 1f);
+		size.y = this.transform.childCount * childHeight;
 		this.GetComponent<RectTransform>().sizeDelta = size;
 	}
 }
