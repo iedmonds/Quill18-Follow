@@ -35,23 +35,6 @@ public class MouseController : MonoBehaviour {
 		lastFramePosition.z = 0;
 	}
 
-//	void UpdateCursor() {
-//		// Update the circle cursor position
-//
-//		Tile tileUnderMouse = WorldController.Instance.GetTileAtWorldCoord(currFramePosition);
-//		if ( tileUnderMouse != null ) {
-//			circleCursor.SetActive(true);
-//			Vector3 cursorPosition = new Vector3 (tileUnderMouse.X, tileUnderMouse.Y, 0);
-//			circleCursor.transform.position = cursorPosition;
-//		} else {
-//			circleCursor.SetActive(false);
-//		}
-//		
-//		if (WorldController.Instance.GetTileAtWorldCoord(currFramePosition) != null && WorldController.Instance.GetTileAtWorldCoord(lastFramePosition) != null && WorldController.Instance.GetTileAtWorldCoord(currFramePosition) != WorldController.Instance.GetTileAtWorldCoord(lastFramePosition)) {
-//			Debug.Log ("Hover tile: "+tileUnderMouse.X+", "+tileUnderMouse.Y);
-//		}
-//	}
-
 	/// <summary>
 	/// Updates the camera movement.
 	/// Middle and right mouse buttons drag to scroll.
